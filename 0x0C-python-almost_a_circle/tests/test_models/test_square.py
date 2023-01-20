@@ -16,18 +16,14 @@ class TestSquare(unittest.TestCase):
 
     def tearDown(self):
         Base._Base__nb_objects = 0
-
     def test_empty_instance(self):
         with self.assertRaises(TypeError):
             r = Square()
-
     def test_six_args_instance(self):
         with self.assertRaises(TypeError):
             r = Square(1, 1, 1, 1, 1, 1)
-
     def test_is_subclass(self):
         self.assertEqual(issubclass(Square, Base), True)
-
     def is_instance(self):
         self.assertEqual(isinstance(Square, Base), True)
 
