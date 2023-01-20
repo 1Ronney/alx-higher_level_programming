@@ -1,0 +1,330 @@
+!/usr/bin/python3
+"""Test Base Module"""
+
+import unittest
+from models.base import Base
+from models.rectangle import Rectangle
+from models.square import Square
+import json
+import os
+
+
+class TestBase(unittest.TestCase):    
+    """TestBase Class"""
+    def setUp(self):  
+        pass
+
+
+    def tearDown(self):
+        Base._Base__nb_objects = 0
+        if os.path.isfile("Rectangle.json"):
+            os.remove("Rectangle.json")
+        if os.path.isfile("Square.json"):
+            os.remove("Square.json")
+        if os.path.isfile("Base.json"):
+            os.remove("Base.json")
+
+
+    # -------- __init__ tests -------------
+
+    def test_single_id(self):
+        
+        b1 = Base()
+        
+        self.assertEqual(b1.id, 1)
+        
+        b1.id = 98
+        
+        self.assertEqual(b1.id, 98)
+        
+
+        
+    def test_zero_id(self):
+        
+        b1 = Base(0)
+        
+        self.assertEqual(b1.id, 0)
+        
+
+        
+    def test_multiples_id(self):
+        
+        b1 = Base()
+        
+        b2 = Base()
+        
+        b3 = Base()
+        
+        self.assertEqual(b1.id, 1)
+        
+        self.assertEqual(b2.id, 2)
+        
+        self.assertEqual(b3.id, 3)
+        
+
+        
+    def test_None_id(self):
+        
+        b1 = Base(None)
+        
+        b2 = Base(None)
+        
+        self.assertEqual(b1.id, 1)
+        
+        self.assertEqual(b2.id, 2)
+        
+
+        
+    def test_set_id(self):
+        
+        b1 = Base(12)
+        
+        self.assertEqual(b1.id, 12)
+        
+
+        
+    def test_two_instances(self):
+        
+        b1 = Base()
+        
+        b1 = Base()
+        
+        self.assertEqual(b1.id, 2)
+        
+
+        
+    def test_two_instances2(self):
+        
+        b1 = Base(98)
+        
+        b1 = Base()
+        
+        self.assertEqual(b1.id, 1)
+        
+
+        
+    def test_two_instances3(self):
+        
+        b1 = Base()
+        
+        b1 = Base(98)
+        
+        self.assertEqual(b1.id, 98)
+        
+
+        
+    def test_two_instances4(self):
+        
+        b1 = Base(1)
+        
+        b1 = Base()
+        
+        self.assertEqual(b1.id, 1)
+        
+
+        
+    def test_nb_objects_private(self):
+        
+        self.assertEqual(hasattr(Base, "_Base__nb_objects"), True)
+        
+        self.assertEqual(hasattr(Base, "__nb_objects"), False)
+        
+        self.assertEqual(hasattr(Base, "nb_objects"), False)
+        
+        self.assertEqual(getattr(Base, "__nb_objects", False), False)
+        
+        with self.assertRaises(AttributeError):
+            
+            a = Base.__nb_objects
+            
+        with self.assertRaises(AttributeError):
+            
+            a = Base.nb_objects
+            
+
+            
+    def test_nb_objects_value(self):
+        
+        b1 = Base()
+        
+        b2 = Base()
+        
+        b3 = Base()
+        
+        self.assertEqual(Base._Base__nb_objects, 3)
+        
+        self.assertEqual(getattr(Base, "_Base__nb_objects", 0), 3)
+        
+        self.assertEqual(Base.__dict__["_Base__nb_objects"], 3)
+        
+
+        
+    def set_nb_objects(self):
+        
+        setattr(Base, "_Base__nb_objects", 3)
+        
+        b1 = Base()
+        
+        self.assertEqual(b1.id, 4)
+        
+        Base._Base__nb_objects = 3
+        
+        b2 = Base()
+        
+        self.assertEqual(b2.id, 4)
+        
+        Base.__dict__["_Base__nb_objects"] = 3
+        
+        b3 = Base()
+        
+        self.assertEqual(b3.id, 4)def test_single_id(self):
+        
+        b1 = Base()
+        
+        self.assertEqual(b1.id, 1)
+        
+        b1.id = 98
+        
+        self.assertEqual(b1.id, 98)
+        
+
+        
+    def test_zero_id(self):
+        
+        b1 = Base(0)
+        
+        self.assertEqual(b1.id, 0)
+        
+
+        
+    def test_multiples_id(self):
+        
+        b1 = Base()
+        
+        b2 = Base()
+        
+        b3 = Base()
+        
+        self.assertEqual(b1.id, 1)
+        
+        self.assertEqual(b2.id, 2)
+        
+        self.assertEqual(b3.id, 3)
+        
+
+        
+    def test_None_id(self):
+        
+        b1 = Base(None)
+        
+        b2 = Base(None)
+        
+        self.assertEqual(b1.id, 1)
+        
+        self.assertEqual(b2.id, 2)
+        
+
+        
+    def test_set_id(self):
+        
+        b1 = Base(12)
+        
+        self.assertEqual(b1.id, 12)
+        
+
+        
+    def test_two_instances(self):
+        
+        b1 = Base()
+        
+        b1 = Base()
+        
+        self.assertEqual(b1.id, 2)
+        
+
+        
+    def test_two_instances2(self):
+        
+        b1 = Base(98)
+        
+        b1 = Base()
+        
+        self.assertEqual(b1.id, 1)
+        
+
+        
+    def test_two_instances3(self):
+        
+        b1 = Base()
+        
+        b1 = Base(98)
+        
+        self.assertEqual(b1.id, 98)
+        
+
+        
+    def test_two_instances4(self):
+        
+        b1 = Base(1)
+        
+        b1 = Base()
+        
+        self.assertEqual(b1.id, 1)
+        
+
+        
+    def test_nb_objects_private(self):
+        
+        self.assertEqual(hasattr(Base, "_Base__nb_objects"), True)
+        
+        self.assertEqual(hasattr(Base, "__nb_objects"), False)
+        
+        self.assertEqual(hasattr(Base, "nb_objects"), False)
+        
+        self.assertEqual(getattr(Base, "__nb_objects", False), False)
+        
+        with self.assertRaises(AttributeError):
+            
+            a = Base.__nb_objects
+            
+        with self.assertRaises(AttributeError):
+            
+            a = Base.nb_objects
+            
+
+            
+    def test_nb_objects_value(self):
+        
+        b1 = Base()
+        
+        b2 = Base()
+        
+        b3 = Base()
+        
+        self.assertEqual(Base._Base__nb_objects, 3)
+        
+        self.assertEqual(getattr(Base, "_Base__nb_objects", 0), 3)
+        
+        self.assertEqual(Base.__dict__["_Base__nb_objects"], 3)
+        
+
+        
+    def set_nb_objects(self):
+        
+        setattr(Base, "_Base__nb_objects", 3)
+        
+        b1 = Base()
+        
+        self.assertEqual(b1.id, 4)
+        
+        Base._Base__nb_objects = 3
+        
+        b2 = Base()
+        
+        self.assertEqual(b2.id, 4)
+        
+        Base.__dict__["_Base__nb_objects"] = 3
+        
+        b3 = Base()
+        
+        self.assertEqual(b3.id, 4)
