@@ -1,1 +1,7 @@
-11;rgb:0000/0000/0000
+#!/usr/bin/node
+exports.converter = function (base) {
+    function convertNumber (number) {
+      return number.toString(base);
+    }
+    return convertNumber;
+  };
