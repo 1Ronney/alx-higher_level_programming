@@ -1,15 +1,15 @@
 #!/usr/bin/python3
 
 """
-This is a a script that prints the
-State object with the name passed as
-argument from the database hbtn_0e_6_usa
+This is a script that  prints all City
+objects from the database hbtn_0e_14_usa
 """
 
 
 import sys
 from sqlalchemy.orm import sessionmaker
-from model_state import Base, State
+from relationship_state import Base, State
+from relationship_city import City
 from sqlalchemy import (create_engine)
 
 if __name__ == '__main__':
@@ -21,11 +21,10 @@ if __name__ == '__main__':
     Session = sessionmaker()
     session = Session(bind=engine)
 
-    a = 1
-    state_filter = session.query(State).filter_by(name=sys.argv[4])
-    for inst in state_filter:
-        a = 0
-        print(inst.id)
-    if a:
-        print('Not found')
+    all_state = session.query(State).order_by(State.id)
+
+    for st in all_state:
+        print("{}: {}".format(st.id, st.name))
+        for ct in st.cities:
+            print("    {}: {}".format(ct.id, ct.name))
     session.close()

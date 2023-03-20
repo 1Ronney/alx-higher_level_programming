@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 
 """
-This is a script that prints first State
-object from the database hbtn_0e_6_usa
+This is a script that changes the name
+of a State object from the database hbtn_0e_6_usa
 """
 
 
@@ -17,10 +17,13 @@ if __name__ == '__main__':
         sys.argv[2],
         sys.argv[3]), pool_pre_ping=True)
 
-    Session = sessionmaker(bind=engine)
-    session = Session()
+    Session = sessionmaker()
+    session = Session(bind=engine)
 
-    first_state = session.query(State).order_by(State.id).first()
-    if first_state:
-        print("{}: {}".format(first_state.id, first_state.name))
+    to_update = session.query(State).filter_by(id=2)
+
+    if to_update[0]:
+        to_update[0].name = 'New Mexico'
+        session.add(to_update[0])
+        session.commit()
     session.close()
